@@ -7,8 +7,8 @@
             -> chose latest version of electron provided by electron-builder
             -> if latest version provided by electron-builder is less then the latest version of vue then run:
             -> yarn add electron
+        -> yarn add bootstrap@next
         -> yarn electron:serve
-            -> NOTE: you could get some error while running app, please google it
 */
 
 import { createApp } from "vue";
