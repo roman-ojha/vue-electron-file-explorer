@@ -1,4 +1,4 @@
-<!-- <script>
+<script>
 import IconFile from "./IconFile";
 import IconFolder from "./IconFolder";
 import IconFolderOpen from "./IconFolderOpen";
@@ -62,4 +62,4 @@ export default {
 .icon-file {
   width: 0.75em;
 }
-</style> -->
+</style>
