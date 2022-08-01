@@ -16,6 +16,7 @@
     -> after we setup vue electron:
         -> we will get the file called 'background.js' which is equivalent to the main.js file that runs vue and sets up the electron to run electron 
         -> after this as per our project purpose as will going to use IPC which will help us to communicate between vueJS to main process 
+            -> yarn add @electron/remote
     -> because we need to access 'fs' & 'path' package we have to integrate node
         -> add this in 'vue.config.js'
         -> pluginOptions: {
