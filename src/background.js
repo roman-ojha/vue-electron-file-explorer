@@ -5,9 +5,6 @@ import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS3_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
 
-require("@electron/remote/main").initialize();
-// we will initialize remote module
-
 protocol.registerSchemesAsPrivileged([
   { scheme: "app", privileges: { secure: true, standard: true } },
 ]);
@@ -19,10 +16,13 @@ async function createWindow() {
     webPreferences: {
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
-      enableRemoteModule: true,
+      // enableRemoteModule: true,
       // after enable remote module this is allow us to run function in the background/main process triggered by events happening in our view components
     },
   });
+  require("@electron/remote/main").initialize();
+  require("@electron/remote/main").enable(win.webContents);
+  //  we have to initialize @electron/remote
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL);

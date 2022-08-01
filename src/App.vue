@@ -1,19 +1,13 @@
-<template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js App" />
-</template>
-
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
 import { app } from "@electron/remote";
 
 import { computed, ref } from "vue";
 
 import fs from "fs";
 import pathModule from "path";
-
 // because we have enable to use 'fs' & 'path' module we can be able to use it inside vue application
+
+import FilesViewer from "./components/FilesViewer.vue";
 
 // To convert byte number result into more human readable formate
 const formatSize = (size) => {
@@ -28,7 +22,7 @@ const formatSize = (size) => {
 export default {
   name: "App",
   setup() {
-    const path = ref(app.getAppPath());
+    const path = ref(app.getAppPath("userData"));
     // path ref will contain the current path where the user is
     // we will also default this with the location of the electron app to get the app's location we will need make a ipc call to the backend process for that electron remote has a function
     const files = computed(() => {
@@ -53,12 +47,60 @@ export default {
           return a.directory ? -1 : 1;
         });
     });
+
+    // next we will create an open folder function which will append the folder name to our path
+    const open = (folder) => {
+      path.value = pathModule.join(path.value, folder);
+    };
+
+    // back function to navigate outside of current directory
+    const back = () => {
+      path.value = pathModule.dirname(path.value);
+    };
+
+    // Search option
+    const searchString = ref("");
+    // model the input of textbox
+    const filteredFile = computed(() => {
+      // after that we will filter as per the searched file
+      return searchString.value
+        ? files.value.filter((s) => s.name.startsWith(searchString.value))
+        : files.value;
+    });
+
+    return {
+      path,
+      open,
+      back,
+      files,
+      searchString,
+      filteredFile,
+    };
   },
   components: {
-    HelloWorld,
+    FilesViewer,
   },
 };
 </script>
+
+<template>
+  <div class="container mt-2">
+    <h4>{{ path }}</h4>
+    <div class="form-group mt-4 mb-2">
+      <input
+        v-model="searchString"
+        class="form-control form-control-sm"
+        placeholder="File search"
+      />
+    </div>
+    <FilesViewer
+      :files="filteredFiles"
+      :nested="nested"
+      @back="back"
+      @folderclick="open($event.name)"
+    />
+  </div>
+</template>
 
 <style>
 #app {
