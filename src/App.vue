@@ -61,7 +61,7 @@ export default {
     // Search option
     const searchString = ref("");
     // model the input of textbox
-    const filteredFile = computed(() => {
+    const filteredFiles = computed(() => {
       // after that we will filter as per the searched file
       return searchString.value
         ? files.value.filter((s) => s.name.startsWith(searchString.value))
@@ -74,7 +74,7 @@ export default {
       back,
       files,
       searchString,
-      filteredFile,
+      filteredFiles,
     };
   },
   components: {
@@ -95,7 +95,6 @@ export default {
     </div>
     <FilesViewer
       :files="filteredFiles"
-      :nested="nested"
       @back="back"
       @folderclick="open($event.name)"
     />
