@@ -5,9 +5,17 @@
 
 <script>
 import HelloWorld from "./components/HelloWorld.vue";
+// import {compute,ref} from 'vue'
+// import fs from "fs";
+// import pathModule from "path";
+// because we have enable to use 'fs' & 'path' module we can be able to use it inside vue application
 
 export default {
   name: "App",
+  setup() {
+    // const path = ref();
+    // path ref will contain the current path
+  },
   components: {
     HelloWorld,
   },
